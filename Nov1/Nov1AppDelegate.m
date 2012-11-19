@@ -14,6 +14,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSLog(@"ad1");
     UIScreen *screen = [UIScreen mainScreen];
     view = [[View alloc] initWithFrame: screen.applicationFrame];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -21,6 +22,7 @@
     //self.window.backgroundColor = [UIColor whiteColor];
     [self.window addSubview:view];
     [self.window makeKeyAndVisible];
+    NSLog(@"ad2");
     return YES;
 }
 

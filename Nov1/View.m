@@ -14,6 +14,7 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
+    NSLog(@"initWithFrame:");
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
@@ -37,13 +38,32 @@
         timeZoneLabel.textColor = [UIColor blackColor];
         
         [self addSubview:timeZoneLabel];
+        
+        //swiping code
+        UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action: @selector(swipe:)];
+        
+        swipeRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+        
+        [self addGestureRecognizer: swipeRecognizer];
+        
+        //pinching code
+        UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
+        
+        [self addGestureRecognizer:pinchRecognizer];
+        
     }
     return self;
 }
 
--(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (touches.count>0) {
-        [UIView animateWithDuration:1.0
+
+
+//-(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  //  if (touches.count>0) {
+
+-(void) swipe: (UISwipeGestureRecognizer *) recognizer{
+    if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
+    
+    [UIView animateWithDuration:1.0
                               delay: 0.0
                             options: UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                          animations: ^{
@@ -88,6 +108,21 @@
     }
 }
 
+-(void) pinch: (UIPinchGestureRecognizer *) recognizer {
+    CGFloat littleWidth = littleView.bounds.size.width;
+    CGFloat littleHeight = littleView.bounds.size.height;
+    CGFloat newWidth = 1;
+    CGFloat newHeight = 1;
+    NSLog(@"%f", recognizer.scale);
+    if (littleWidth>7 && littleHeight>7) {
+        newWidth = littleWidth*recognizer.scale;
+        newHeight = littleHeight*recognizer.scale;
+    } else {
+        newWidth = 10;
+        newHeight = 10;
+    }
+    littleView.bounds = CGRectMake(0,0, newWidth, newHeight);
+}
 
 
  // Only override drawRect: if you perform custom drawing.
